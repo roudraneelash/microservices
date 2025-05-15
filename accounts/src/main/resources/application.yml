@@ -1,0 +1,33 @@
+# Server configuration settings
+    server:
+      # The port on which the server will listen for incoming requests
+      port: 8080
+
+    # Spring framework configuration
+    spring:
+      # Datasource settings for the application
+      datasource:
+        # URL of the in-memory H2 database
+        url: jdbc:h2:mem:testdb
+        # Fully qualified name of the database driver class
+        driver-class-name: org.h2.Driver
+        # Username for the database connection
+        username: sa
+        # Password for the database connection (empty for H2 in-memory database)
+        password: ''
+
+      # H2 database console settings
+      h2:
+        console:
+          # Enable or disable the H2 database web console
+          enabled: true
+
+      # JPA (Java Persistence API) and Hibernate settings
+      jpa:
+        # Specify the database dialect for Hibernate
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+          # Automatically update the database schema based on JPA entities
+          ddl-auto: update
+        # Enable SQL query logging in the console
+        show-sql: true

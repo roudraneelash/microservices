@@ -1,0 +1,44 @@
+- entity 
+  - Base Entity: createdAt,createdBy,updatedAt,updatedBy
+  - Loans: loanId,loanNumber,mobileNumber,loantype,totalLoan,amountPaid,outstandingAmount
+- dto layer
+  - LoanDto: loanId,loanNumber,mobileNumber,loantype,totalLoan,amountPaid,outstandingAmount
+  - ResponseDto: status, message
+  - ErrorResponseDto: apiPath,errorCode,errorMessage,errorTime
+- service layer
+  - service interface : createLoan(),fetchLoan(),updateLoan(),deleteLoan()
+  - service implementation : implements service interface
+- controller layer
+  - PostMapping: createLoan()
+  - GetMapping: fetchLoan()
+  - PutMapping: updateLoan()
+  - DeleteMapping: deleteLoan()
+- repository layer
+  - LoanRepository: extends JpaRepository
+  - findByMobileNumber(String mobileNumber)
+  - findByLoanNumber(String loanNumber)
+- mapper layer
+  - toEntity: to transact with db
+  - toDto: to share/receive details from client
+
+- exception handling:
+    - GlobalExceptionHandler: @ControllerAdvice
+      - @ExceptionHandler(Exception.class): handle Global exceptions    
+      - @ExceptionHandler(ResourceNotFoundException.class): handle ResourceNotFoundException
+      - @ExceptionHandler(LoanAlreadyExistsException.class): handle LoanAlreadyExistsException
+      - extends ResponseEntityExceptionHandler
+        - handle MethodArgumentNotValidException: for dto layer validation
+    - ResourceNotFoundException: @ResponseStatus(HttpStatus.NOT_FOUND)
+    - LoanAlreadyExistsException: @ResponseStatus(HttpStatus.CONFLICT)
+- validation
+- Audit
+  - AuditAwareImpl implements AuditAware<String>
+    - getCurrentAuditor(): to update createdBy,updatedBy
+  - annotate with MappedSuperclass at the BaseEntity, @EntityListeners(AuditingEntityListener.class)
+  - at application level , annotate @EnableJpaAuditing(auditAwareRef = "auditAwareImpl")
+- Opendoc OpenAPI documentation
+  - @OpenAPIDefinition
+  - @Operation
+  - @ApiResponse
+  - @Schema
+  - @Parameter
