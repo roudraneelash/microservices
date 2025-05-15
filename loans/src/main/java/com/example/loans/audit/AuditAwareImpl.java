@@ -9,7 +9,7 @@ import java.util.Optional;
 public class AuditAwareImpl implements AuditorAware<String> {
 
     /**
-     * @return
+     * @return current auditor who is responsible for the create/update transactions
      */
     @Override
     public Optional<String> getCurrentAuditor() {

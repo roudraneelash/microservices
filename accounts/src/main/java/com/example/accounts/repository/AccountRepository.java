@@ -1,7 +1,6 @@
 package com.example.accounts.repository;
 
 import com.example.accounts.entity.Accounts;
-import com.example.accounts.entity.Customer;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
