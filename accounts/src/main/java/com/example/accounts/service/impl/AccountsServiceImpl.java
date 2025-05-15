@@ -14,9 +14,7 @@ import com.example.accounts.repository.CustomerRepository;
 import com.example.accounts.service.IAccountsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDate;
 import java.util.Optional;
 
