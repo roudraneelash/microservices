@@ -1,12 +1,9 @@
 package com.example.accounts.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-
-import java.awt.*;
 
 /**
  * AccountsDto is a Data Transfer Object (DTO) that represents the account details of a customer.
