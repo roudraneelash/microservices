@@ -97,7 +97,9 @@ public class  AccountsController {
             @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))),
     })
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDto> deleteAccount(@Valid @RequestParam String mobileNumber) {
+    public ResponseEntity<ResponseDto> deleteAccount(@RequestParam
+                                                         @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number should be 10 digits")
+                                                         String mobileNumber) {
         boolean isDeleted = accountsService.deleteAccount(mobileNumber);
         if(isDeleted) {
             return ResponseEntity
