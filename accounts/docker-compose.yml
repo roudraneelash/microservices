@@ -1,0 +1,40 @@
+services:
+  accounts:
+    image: devuseash/accounts:v1
+    container_name: accounts-ms
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - devuseash
+
+  loans:
+    image: devuseash/loans:v1
+    container_name: loans-ms
+    ports:
+      - "9000:9000"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - devuseash
+
+  cards:
+    image: devuseash/cards:v1
+    container_name: cards-ms
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - devuseash
+
+networks:
+  devuseash:
+    driver: bridge
