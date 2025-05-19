@@ -1,6 +1,7 @@
 package com.example.accounts.controller;
 
 import com.example.accounts.constants.AccountsConstants;
+import com.example.accounts.dto.AccountsContactInfoDto;
 import com.example.accounts.dto.CustomerDto;
 import com.example.accounts.dto.ErrorResponseDto;
 import com.example.accounts.dto.ResponseDto;
@@ -14,7 +15,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +33,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/api" , produces = {MediaType.APPLICATION_JSON_VALUE})
 // if all args constructor is used, then @Autowired is not required
 // also if all args constructor is not used , then it will throw runtime exception(null pointer exception)
-@AllArgsConstructor
+//@AllArgsConstructor
 @Validated
 public class  AccountsController {
     // constructor based dependency injection
+    @Autowired
     private IAccountsService accountsService;
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @Autowired
+    private Environment environment;
+
+    @Autowired
+    private AccountsContactInfoDto accountsContactInfoDto;
+
     @Operation(
             summary = "Create a new account",
             description = "This API is used to create a new account in eZYBanking"
@@ -111,5 +125,42 @@ public class  AccountsController {
                     .body(new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_DELETE));
         }
 
+    }
+    @Operation(
+            summary = "Get build information",
+            description = "This API is used to get build information of the micrservice"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "HTTP Static Ok"),
+            @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error")
+    })
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+    }
+    @Operation(
+            summary = "Get Java Version information",
+            description = "This API is used to get java version through environment interface"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "HTTP Static Ok"),
+            @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error")
+    })
+    @GetMapping("/java-version")
+    public ResponseEntity<String> getJavaVersion(){
+        return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
+    }
+
+    @Operation(
+            summary = "Get Contact information",
+            description = "This API is used to get contact info through configuration properties"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "HTTP Static Ok"),
+            @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error")
+    })
+    @GetMapping("/contact-info")
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(accountsContactInfoDto);
     }
 }
